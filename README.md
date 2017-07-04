@@ -1,8 +1,11 @@
+![whale vs kraken](https://github.com/cdeletre/dockraken/raw/master/ressources/dockraken.jpg)
+
 # dockraken
 A dockerized version of A5/1 kraken tool (server mode)
 
-## Important note
-This repository and the procedure detailed here are provided as is and for educational purposes only and **must not be used with bad intentions**.
+<span style="color:red">IMPORTANT NOTE</span> |
+--- |
+This repository and the procedure detailed here are provided as is and for educational purposes only and **must not be used with bad intentions**. |
 
 ## Clone repository
 ```
@@ -14,13 +17,16 @@ git clone https://github.com/cdeletre/dockraken.git
 
 ## Prepare A5/1 rainbow tables
 
-> **Disclaimer**: the steps described here require you to deeply care of what you are doing ! You may broke you system and/or lose data. You have been warned...
+<span style="color:red">DISCLAIMER</span> |
+--- | 
+The steps described here require you to deeply care of what you are doing ! You may broke your system and/or lose data. You have been warned... |
+
 
 Of course you need the rainbow tables files. I let you google for it. You'll need 1.6 TB of storage.
 
-Then you need to import and index the tables on dedicated disk(s) (not the same as the one where you downloaded the files). You can perform all the operation as root or with sudo but I prefer to do it a little be less dirty.
+Then you need to import and index the tables on dedicated disk(s) (not the same as the one where you downloaded the files). You can perform all the operation as root or with sudo but I prefer to do it less dirty.
 
-The procedure detailed here assumes that we are using ```/dev/sdb``` and ```/dev/sdc``` as dedicated disks (empty partition table) and that rainbow tables files are stored on /dev/sdd1 which is mount on ```/mnt/rainbow-tables```.
+The procedure detailed here assumes that we are using ```/dev/sdb``` and ```/dev/sdc``` (1 TB each) as dedicated disks (empty partition table) and that rainbow tables files are stored on /dev/sdd1 which is mount on ```/mnt/rainbow-tables```.
 
 ### Configure the dedicated disks
 
@@ -79,7 +85,7 @@ docker build -t dockraken .
 ```
 
 ## Start docker image
-The following command start the image in background, kraken will load the 3 GB index files (it takes few seconds)
+The following command starts the image in background, kraken will load the 3 GB index files (it takes few seconds):
 
 ```
 docker run -d -h kraken-01 \
@@ -112,3 +118,6 @@ docker run -d -h kraken-01 \
 --device /dev/sdb:/dev/sdb --device /dev/sdc:/dev/sdc \
 dockraken
 ```
+
+## Remarks
+The performance is impaired when running kraken from this docker image. Cracking a vector takes 4 times more (~240 seconds instead of ~60 seconds natively on the host). Maybe some adjustments in the Docker installation can fix this. Hints are welcome :)
